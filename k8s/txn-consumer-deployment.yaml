@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: txn-consumer
+  namespace: eda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: txn-consumer
+  template:
+    metadata:
+      labels:
+        app: txn-consumer
+    spec:
+      containers:
+        - name: txn-consumer
+          image: edaplayground-txn-consumer:latest
+          imagePullPolicy: Never
+          env:
+            - { name: KAFKA_BROKERS, value: "kafka:9092" }
+            - { name: KAFKA_CLIENT_ID, value: "txn-consumer" }
+            - { name: KAFKA_GROUP_ID, value: "txn-writer" }
+            - { name: KAFKA_TOPIC, value: "transactions" }
+            - { name: OUTPUT_PATH, value: "/data/transactions.log" }
+            - { name: FROM_BEGINNING, value: "true" }
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: txn-logs

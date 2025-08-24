@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-job
+  namespace: eda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-job
+  template:
+    metadata:
+      labels:
+        app: flink-job
+    spec:
+      containers:
+        - name: job
+          image: edaplayground-flink-job:latest
+          imagePullPolicy: Never
+          env:
+            - { name: brokers, value: "kafka:9092" }
+            - { name: in, value: "transactions" }
+            - { name: out, value: "alerts.duplicate_amount" }

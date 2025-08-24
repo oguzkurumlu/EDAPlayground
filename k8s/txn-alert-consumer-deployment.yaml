@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: txn-alert-consumer
+  namespace: eda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: txn-alert-consumer
+  template:
+    metadata:
+      labels:
+        app: txn-alert-consumer
+    spec:
+      containers:
+        - name: txn-alert-consumer
+          image: edaplayground-txn-alert-consumer:latest
+          imagePullPolicy: Never
+          env:
+            - { name: KAFKA_BROKERS, value: "kafka:9092" }
+            - { name: KAFKA_CLIENT_ID, value: "alerts-consumer" }
+            - { name: KAFKA_GROUP_ID, value: "alerts-reader" }
+            - { name: KAFKA_TOPIC, value: "alerts.duplicate_amount" }
+            - { name: OUTPUT_PATH, value: "/data/alert-consumer.log" }
+            - { name: FROM_BEGINNING, value: "false" }
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: txn-alertlogs

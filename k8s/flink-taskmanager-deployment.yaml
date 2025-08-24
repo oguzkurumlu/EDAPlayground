@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-taskmanager
+  namespace: eda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-taskmanager
+  template:
+    metadata:
+      labels:
+        app: flink-taskmanager
+    spec:
+      containers:
+        - name: tm
+          image: flink:1.18.1-scala_2.12-java17
+          args: ["taskmanager"]
+          env:
+            - name: FLINK_PROPERTIES
+              value: |
+                jobmanager.rpc.address: flink-jobmanager
+                taskmanager.numberOfTaskSlots: 2

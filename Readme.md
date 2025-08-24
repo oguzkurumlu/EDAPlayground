@@ -1,4 +1,13 @@
-## For start up
+## For start up in docker compose
+
+docker compose up -d
+
+## For start up in k8s
+
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/ --namespace eda
+
+## Configuration steps
 
 # Make 1 Kafka Connect definition
 

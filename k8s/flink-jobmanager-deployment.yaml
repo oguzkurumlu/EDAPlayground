@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink-jobmanager
+  namespace: eda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink-jobmanager
+  template:
+    metadata:
+      labels:
+        app: flink-jobmanager
+    spec:
+      containers:
+        - name: jm
+          image: flink:1.18.1-scala_2.12-java17
+          args: ["jobmanager"]
+          ports:
+            - containerPort: 8081   # Web UI
+          env:
+            - name: FLINK_PROPERTIES
+              value: |
+                jobmanager.rpc.address: flink-jobmanager
