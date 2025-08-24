@@ -1,0 +1,13 @@
+{
+  "name": "txn-consumer",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "pino": "^9.3.2"
+  }
+}
