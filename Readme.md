@@ -1,4 +1,6 @@
-## Kafka Connect definition
+## For start up
+
+# Make 1 Kafka Connect definition
 
 curl -s -X POST http://localhost:8083/connectors \
   -H 'Content-Type: application/json' \
@@ -30,6 +32,6 @@ curl -s -X POST http://localhost:8083/connectors \
   }'
 
 
-## New transaction
+# 2 create new transaction
 
   curl -X POST "http://localhost:8080/transactions" -H "content-type: application/json"   -d '{"account_id":1,"txn_type":"DEBIT","amount":99.99,"currency":"TRY"}'
